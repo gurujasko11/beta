@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="404.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.view.ManagerControllor">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="404.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.view.ManagerController">
   <tabs>
     <Tab text="zamowienia">
       <content>
@@ -21,10 +21,11 @@
                <children>
                   <Label layoutX="38.0" layoutY="21.0" text="Search" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
                   <TextField layoutX="62.0" layoutY="5.0" prefHeight="26.0" prefWidth="143.0" AnchorPane.topAnchor="5.0" />
-                  <TableView layoutX="14.0" layoutY="40.0" prefHeight="251.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0">
+                  <TableView fx:id="OrdersTable" layoutX="14.0" layoutY="40.0" prefHeight="251.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn fx:id="orderIDColumn" prefWidth="75.0" text="OrderID" />
+                      <TableColumn fx:id="fstNameColumn" prefWidth="75.0" text="fst Name" />
+                        <TableColumn fx:id="sndNameColumn" prefWidth="75.0" text="snd Name" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -52,18 +53,18 @@
                         <Label text="Addres" GridPane.rowIndex="2" />
                         <Label text="Total" GridPane.rowIndex="3" />
                         <Label text="Info" GridPane.rowIndex="4" />
-                        <Label text="Label" GridPane.columnIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="ClientLabel" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="DateLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="AddressLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="TotalLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="217.0" layoutY="159.0" prefHeight="132.0" prefWidth="179.0" AnchorPane.rightAnchor="5.0">
+                  <TableView fx:id="PositionsTable" layoutX="217.0" layoutY="159.0" prefHeight="132.0" prefWidth="179.0" AnchorPane.rightAnchor="5.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="Name" />
-                      <TableColumn prefWidth="75.0" text="Quantity" />
-                        <TableColumn prefWidth="75.0" text="Price" />
+                      <TableColumn fx:id="posNameColumn" prefWidth="75.0" text="Name" />
+                      <TableColumn fx:id="posQuantityColumn" prefWidth="75.0" text="Quantity" />
+                        <TableColumn fx:id="posPriceColumn" prefWidth="75.0" text="Price" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -81,11 +82,12 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <TableView layoutX="67.0" prefHeight="305.0" prefWidth="402.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="OffersTable" layoutX="67.0" prefHeight="305.0" prefWidth="402.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="220.0" text="Name" />
-                                  <TableColumn minWidth="0.0" prefWidth="92.0" text="NettoPrice" />
-                                    <TableColumn prefWidth="89.0" text="Tax" />
+                                  <TableColumn fx:id="offerName" prefWidth="220.0" text="Name" />
+                                  <TableColumn fx:id="offerType" minWidth="0.0" prefWidth="92.0" text="Type" />
+                                    <TableColumn fx:id="offerPrice" prefWidth="89.0" text="NettoPrice" />
+                                    <TableColumn fx:id="offerTax" prefWidth="75.0" text="Tax" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -95,9 +97,9 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <Button layoutX="51.0" layoutY="12.0" mnemonicParsing="false" prefWidth="85.0" text="New" AnchorPane.bottomAnchor="2.0" />
-                              <Button layoutX="159.0" layoutY="13.0" mnemonicParsing="false" prefWidth="85.0" text="Edit" AnchorPane.bottomAnchor="2.0" />
-                              <Button layoutX="268.0" layoutY="12.0" mnemonicParsing="false" prefWidth="85.0" text="Delete" AnchorPane.bottomAnchor="2.0" />
+                              <Button layoutX="51.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleNewOffer" prefWidth="85.0" text="New" AnchorPane.bottomAnchor="2.0" />
+                              <Button layoutX="159.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleEditOffer" prefWidth="85.0" text="Edit" AnchorPane.bottomAnchor="2.0" />
+                              <Button layoutX="268.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleDeleteOffer" prefWidth="85.0" text="Delete" AnchorPane.bottomAnchor="2.0" />
                            </children>
                         </AnchorPane>
                     </items>

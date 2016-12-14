@@ -18,8 +18,8 @@ public class Person extends Customer {
         lastName = null;
         firstName = null;
     }
-    public Person(String fname, String lname,String log, String pas,String street, String postalCode, String city){
-        super(log, pas, street, postalCode, city, PERSON);
+    public Person(String fname, String lname,String log, String pas,String street, String postalCode, String homeNumber, String city){
+        super(log, pas, street, postalCode, city, homeNumber, PERSON);
         lastName = new SimpleStringProperty(lname);
         firstName = new SimpleStringProperty(fname);
     }
@@ -29,10 +29,10 @@ public class Person extends Customer {
     public void setLastName(String lname){
         this.lastName.set(lname);
     }
-    public String getFirstName(){
-        return firstName.get();
+    public StringProperty getFirstName(){
+        return new SimpleStringProperty(firstName.get());
     }
-    public String getLastName(){
-        return lastName.get();
+    public StringProperty getLastName(){
+        return new SimpleStringProperty(lastName.get());
     }
 }

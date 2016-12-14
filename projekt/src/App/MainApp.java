@@ -2,12 +2,12 @@ package App;/**
  * Created by busz on 12.11.16.
  */
 
-import App.model.Account;
-import App.model.AccountType;
+import App.model.*;
 import App.view.*;
 import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,14 +25,27 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout = new BorderPane();
-    Map<String,String> konta = new HashMap<>();
     private ObservableMap<String,Account> accounts = FXCollections.observableHashMap();
+    private ObservableList<Order> orders = FXCollections.observableArrayList();
+    private ObservableList<Product> products = FXCollections.observableArrayList();
+    private ObservableList<Offer> offers = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     public MainApp(){
+        Customer c = new Person("Jan", "Pawel","jp", "2", "Dluga", "33-333", "21/37", "");
+        Product pr = new Product("Kremowka", ProductType.ITEM);
+        Offer of = new Offer(pr,21.37,0.21);
+        accounts.put("jp2",c);
+        products.add(pr);
+        offers.add(of);
+        Basket bs = c.getBasket();
+        Position pos = new Position(of, 2);
+        bs.addToBasket(pos);
+        orders.add(c.goCheckOut());
+
         accounts.put("DBAdmin", new Account("DBAdmin", "dbadmin", AccountType.DBADMIN));
         accounts.put("Manager", new Account("Manager", "manager", AccountType.MANAGER));
         accounts.put("Supplier",new Account("Supplier", "supplier", AccountType.SUPPLIER));
@@ -158,7 +171,7 @@ public class MainApp extends Application {
             primaryStage.setTitle("Manager");
             primaryStage.show();
 
-            ManagerControllor controller = loader.getController();
+            ManagerController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
@@ -205,11 +218,6 @@ public class MainApp extends Application {
         }
     }
 
-
-    public Map<String,String> getKonta(){
-        return konta;
-    }
-
     public Stage getPrimaryStage(){
         return primaryStage;
     }
@@ -217,7 +225,8 @@ public class MainApp extends Application {
     public ObservableMap<String,Account> getAccounts() {
         return accounts;
     }
-
+    public ObservableList<Offer> getOffers() { return offers; }
+    public ObservableList<Order> getOrders() { return orders; }
     public void showAccountantLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
